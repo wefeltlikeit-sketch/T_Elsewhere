@@ -1,0 +1,2 @@
+import { Footer, Header, PageHero, StoryCard } from "../components"; import { stories } from "../content";
+export default function Page(){return <main><Header/><PageHero kicker="Notes from trains, tables & side streets" title="Travel Stories" intro="The cities I loved, the turns I nearly missed, and the details that followed me home."/><section className="shell archive-grid">{stories.map(s=><StoryCard key={s.slug} story={s}/>)}</section><Footer/></main>}
