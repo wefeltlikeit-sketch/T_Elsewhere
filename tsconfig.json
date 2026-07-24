@@ -6,6 +6,7 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    "types": ["node", "react", "react-dom"],
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -30,5 +31,15 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "db",
+    "drizzle.config.ts",
+    "examples",
+    "outputs",
+    "vite.config.ts",
+    "worker",
+    "work"
+  ]
 }
