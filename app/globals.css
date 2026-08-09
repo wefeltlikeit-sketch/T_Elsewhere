@@ -57,19 +57,19 @@
    JavaScript is unavailable. `--t-from` / `--r-from` carry the *start*
    position; `.is-in` sets `--t-t` / `--t-r`, which win via the var fallback
    chain — no specificity war with the selector list below. */
-.section-heading > div > *,
-.section-heading > .text-link,
-.story-grid > .story-card,
-.finds-grid > .find-card,
-.cheese-copy > *:not(dl),
-.cheese-copy dl div,
-.video-layout > div:first-child > *,
-.video-layout > .video-card,
-.newsletter > *,
-.archive-grid > .story-card,
-.finds-archive > .find-archive-card,
-.cheese-grid > .cheese-card,
-.videos-grid > .video-card{
+.reveal-on .section-heading > div > *,
+.reveal-on .section-heading > .text-link,
+.reveal-on .story-grid > .story-card,
+.reveal-on .finds-grid > .find-card,
+.reveal-on .cheese-copy > *:not(dl),
+.reveal-on .cheese-copy dl div,
+.reveal-on .video-layout > div:first-child > *,
+.reveal-on .video-layout > .video-card,
+.reveal-on .newsletter > *,
+.reveal-on .archive-grid > .story-card,
+.reveal-on .finds-archive > .find-archive-card,
+.reveal-on .cheese-grid > .cheese-card,
+.reveal-on .videos-grid > .video-card{
   opacity:var(--t-o,0);
   translate:var(--t-t,var(--t-from,0 18px));
   rotate:var(--t-r,var(--r-from,0deg));
@@ -142,17 +142,17 @@
 
 @media(prefers-reduced-motion:no-preference){
 
-.atlas-heading > div > *,
-.atlas-heading > p,
-.atlas-map > .map-wash,
-.atlas-map > .sea-note,
-.atlas-map > .map-pin,
-.atlas-map > .map-key,
-.chapter-jump > a,
-.index-intro > *,
-.place-chapter > header > *,
-.place-chapter > .place-grid > .place-card,
-.atlas-cta .shell > *{
+.reveal-on .atlas-heading > div > *,
+.reveal-on .atlas-heading > p,
+.reveal-on .atlas-map > .map-wash,
+.reveal-on .atlas-map > .sea-note,
+.reveal-on .atlas-map > .map-pin,
+.reveal-on .atlas-map > .map-key,
+.reveal-on .chapter-jump > a,
+.reveal-on .index-intro > *,
+.reveal-on .place-chapter > header > *,
+.reveal-on .place-chapter > .place-grid > .place-card,
+.reveal-on .atlas-cta .shell > *{
   opacity:var(--t-o,0);
   translate:var(--t-t,var(--t-from,0 18px));
   rotate:var(--t-r,var(--r-from,0deg));
@@ -177,7 +177,7 @@
 /* The pin head presses into the paper while its label simply fades in beside
    it. Both --t-s and --rd inherit from the pin, so the dot and the label stay
    on the same clock without any extra bookkeeping. */
-.atlas-map > .map-pin i{scale:var(--t-s,.35);transition:scale .5s var(--ease-settle) var(--rd,0ms)}
+.reveal-on .atlas-map > .map-pin i{scale:var(--t-s,.35);transition:scale .5s var(--ease-settle) var(--rd,0ms)}
 
 .chapter-jump > a{--t-from:0 12px}
 .place-chapter > header > *{--t-from:0 16px}
