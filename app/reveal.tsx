@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 /**
  * Scroll reveals for "T, Elsewhere".
@@ -78,6 +79,15 @@ const GROUPS: Group[] = [
 type Bundle = { children: HTMLElement[]; stagger: number; delay: number; max: number };
 
 export default function Reveal() {
+  // This component is mounted in the root layout, which PERSISTS across
+  // client-side navigation — the layout does not remount when you follow a
+  // <Link>. With an empty dependency array the observer would attach once, on
+  // first load, and every subsequently navigated-to page would mount its
+  // elements at opacity:0 with nothing watching them. Depending on the pathname
+  // re-runs the effect on each route change: the old observer is disconnected
+  // by the cleanup below, and a fresh one attaches to the new page's DOM.
+  const pathname = usePathname();
+
   useEffect(() => {
     const bundles = new Map<Element, Bundle[]>();
 
@@ -147,7 +157,7 @@ export default function Reveal() {
     bundles.forEach((_group, parent) => observer.observe(parent));
 
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   return null;
 }
