@@ -10,3 +10,186 @@
 @media(max-width:1100px){.site-header nav{gap:16px;font-size:10px}.journey-index{grid-template-columns:1fr}.index-intro{position:static}.place-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:960px){.atlas-hero{grid-template-columns:1fr;gap:30px;padding-block:75px 60px}.atlas-map{height:580px}.chapter-jump{grid-template-columns:repeat(3,1fr)}.chapter-jump a:nth-child(3){border-right:0}.place-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:620px){.atlas-hero h1{font-size:62px}.atlas-intro{font-size:19px}.atlas-heading{display:block}.atlas-heading>p{margin-top:20px}.atlas-map{height:560px;border-width:8px}.map-pin span{display:none}.map-pin:nth-of-type(4n) span,.map-pin:hover span{display:block}.map-key{left:12px;right:auto;bottom:12px}.chapter-jump{grid-template-columns:repeat(2,1fr);margin-bottom:75px}.chapter-jump a:nth-child(3){border-right:1px solid var(--line)}.chapter-jump a:nth-child(even){border-right:0}.journey-index{gap:55px;padding-bottom:80px}.place-grid{grid-template-columns:repeat(2,1fr)}.place-card.medium,.place-card.large{grid-column:span 2}.place-card.large{min-height:190px}.place-chapter header{grid-template-columns:46px 1fr}.chapter-number{font-size:38px}.place-chapter h3{font-size:32px}.atlas-cta{padding-block:75px}}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOTION — appended, not rewired.
+   Nothing above this line was edited except a handful of transition timings
+   (marked "retune" below). No content, layout, hierarchy or class names changed.
+
+   Two constraints this whole block is built around:
+
+   1. Reveal states live inside `prefers-reduced-motion: no-preference`.
+      The existing reduce block near the top uses `animation:none!important;
+      transition:none!important` — so anything starting at opacity:0 would
+      simply never become visible for those visitors. Gating the *hidden*
+      state means they never enter it at all.
+
+   2. Reveals use the independent `translate:` / `rotate:` / `scale:`
+      properties, never `transform:`. Several rules above already use
+      `transform` for static layout — .story-card:nth-child(3), .tilt-1..4,
+      .stamp, .postcard-note, .cheese-wheel, .play — and a reveal written with
+      `transform` would overwrite every one of them.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root{--ease-settle:cubic-bezier(.22,.61,.36,1);--ease-drift:cubic-bezier(.37,.01,.24,1);--t-in:.28s;--t-out:.46s;--t-reveal:.85s}
+
+/* — Retune: the stock `.2s ease` everywhere reads snappy and product-y.
+     Same effects and same values, only slower and softer. Engage quickly,
+     release reluctantly — that asymmetry is what gives an object weight. — */
+.button{transition:transform var(--t-out) var(--ease-settle),box-shadow var(--t-out) var(--ease-settle)}
+.button:hover{transition-duration:var(--t-in)}
+.play{transition:transform var(--t-out) var(--ease-settle),box-shadow var(--t-out) var(--ease-settle)}
+.play:hover{transition-duration:var(--t-in)}
+.site-header nav a:after{transition:right .34s var(--ease-drift)}
+.story-card .story-image{transition:transform var(--t-out) var(--ease-settle),scale var(--t-out) var(--ease-settle),box-shadow var(--t-out) var(--ease-settle)}
+.story-card:hover .story-image{transition-duration:var(--t-in)}
+.place-card{transition:transform var(--t-out) var(--ease-settle),box-shadow var(--t-out) var(--ease-settle)}
+.place-card:hover{transition-duration:var(--t-in)}
+.map-pin span{transition:transform var(--t-out) var(--ease-settle),background-color var(--t-out) var(--ease-settle),color var(--t-out) var(--ease-settle)}
+/* 28s reads as a news crawl; 36s reads as someone walking past the window. */
+.ticker span{animation-duration:36s}
+
+@media(prefers-reduced-motion:no-preference){
+
+/* ── Scroll reveal: hidden state ──────────────────────────────────────────
+   Values are read through inherited custom properties, so the single
+   `:root` override in layout.tsx's <noscript> un-hides the entire page when
+   JavaScript is unavailable. `--t-from` / `--r-from` carry the *start*
+   position; `.is-in` sets `--t-t` / `--t-r`, which win via the var fallback
+   chain — no specificity war with the selector list below. */
+.section-heading > div > *,
+.section-heading > .text-link,
+.story-grid > .story-card,
+.finds-grid > .find-card,
+.cheese-copy > *:not(dl),
+.cheese-copy dl div,
+.video-layout > div:first-child > *,
+.video-layout > .video-card,
+.newsletter > *,
+.archive-grid > .story-card,
+.finds-archive > .find-archive-card,
+.cheese-grid > .cheese-card,
+.videos-grid > .video-card{
+  opacity:var(--t-o,0);
+  translate:var(--t-t,var(--t-from,0 18px));
+  rotate:var(--t-r,var(--r-from,0deg));
+  transition:
+    opacity var(--t-dur,var(--t-reveal)) var(--ease-settle) var(--rd,0ms),
+    translate var(--t-dur,var(--t-reveal)) var(--ease-settle) var(--rd,0ms),
+    rotate var(--t-dur,var(--t-reveal)) var(--ease-settle) var(--rd,0ms),
+    transform var(--t-out) var(--ease-settle),
+    scale var(--t-out) var(--ease-settle),
+    box-shadow var(--t-out) var(--ease-settle);
+}
+.is-in{--t-o:1;--t-t:0 0;--t-r:0deg;--t-s:1}
+
+/* Per-group starting positions. Headings barely move; the big objects travel
+   further and land a beat later. */
+.section-heading > div > *,.section-heading > .text-link{--t-from:0 14px}
+.story-grid > .story-card,.archive-grid > .story-card{--t-from:0 26px}
+.cheese-copy dl div{--t-from:0 10px}
+/* Finds arrive with a touch of extra angle that resolves into the existing
+   .tilt-1..4 rotations — unpacked from a basket, not snapped into a grid.
+   `rotate:` composes with their `transform:rotate()`; it does not replace it. */
+.finds-grid > .find-card{--t-from:0 22px;--r-from:-1.4deg}
+.finds-grid > .find-card:nth-child(even){--r-from:1.4deg}
+
+/* ── Hero load sequence ───────────────────────────────────────────────────
+   Resolves in about 1.4s and never runs again. The hero photo itself is
+   deliberately NOT animated: it is the LCP element, and fading it in would
+   push the page's largest paint out for the sake of an effect nobody asked
+   for. Its furniture — the caption and the stamp — settles onto it instead.
+   The italic line arrives late, as though it were written second. */
+@keyframes t-rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+@keyframes t-fade{from{opacity:0}to{opacity:1}}
+@keyframes t-press{from{opacity:0;scale:1.09;rotate:-13deg}to{opacity:1;scale:1;rotate:0deg}}
+
+.hero-copy .eyebrow{animation:t-rise .8s var(--ease-settle) .06s both}
+.hero-copy h1{animation:t-rise .9s var(--ease-settle) .14s both}
+.hero-copy h1 em{animation:t-fade .9s var(--ease-drift) .38s both}
+.hero-copy .dek{animation:t-rise .85s var(--ease-settle) .3s both}
+.hero-copy .button{animation:t-rise .85s var(--ease-settle) .4s both}
+.hero-copy .postcard-note{animation:t-rise .9s var(--ease-settle) .56s both}
+.hero-photo .photo-label{animation:t-rise .8s var(--ease-settle) .5s both}
+/* Rotates from -13deg to 0, which composes with the stamp's existing
+   transform:rotate(8deg) — so it lands pressed on at its usual angle. */
+.hero-photo .stamp{animation:t-press 1s var(--ease-settle) .64s both}
+
+/* ── Tactile hover ────────────────────────────────────────────────────────
+   Additive only: the existing translateY(-5px) on .story-image still comes
+   from its own rule above. This adds the barest scale and a soft, warm-toned
+   shadow — light shifting across the print rather than a card popping up. */
+.story-card:hover .story-image{scale:1.015;box-shadow:0 18px 34px -18px rgba(45,42,38,.45)}
+.button span{transition:translate var(--t-out) var(--ease-settle)}
+.button:hover span{translate:3px -3px;transition-duration:var(--t-in)}
+.newsletter input{transition:box-shadow .4s var(--ease-drift)}
+.newsletter input:focus{box-shadow:0 8px 20px -14px var(--terra)}
+
+}
+
+/* Only real doorways should feel like doorways. The .place-card:hover lift and
+   shadow above were written when every card was an inert div; now that some are
+   links, the affordance should belong to the ones that actually open. Delete
+   this single line to restore the original all-cards-lift behaviour. */
+.place-card:not(a):hover{transform:none;box-shadow:none}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOTION — Places (the atlas)
+   Same machinery as the block above: hidden state gated behind
+   `no-preference`, movement via independent translate/rotate/scale so the
+   static transforms on .map-pin, .map-wash and .sea-note survive intact.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media(prefers-reduced-motion:no-preference){
+
+.atlas-heading > div > *,
+.atlas-heading > p,
+.atlas-map > .map-wash,
+.atlas-map > .sea-note,
+.atlas-map > .map-pin,
+.atlas-map > .map-key,
+.chapter-jump > a,
+.index-intro > *,
+.place-chapter > header > *,
+.place-chapter > .place-grid > .place-card,
+.atlas-cta .shell > *{
+  opacity:var(--t-o,0);
+  translate:var(--t-t,var(--t-from,0 18px));
+  rotate:var(--t-r,var(--r-from,0deg));
+  transition:
+    opacity var(--t-dur,var(--t-reveal)) var(--ease-settle) var(--rd,0ms),
+    translate var(--t-dur,var(--t-reveal)) var(--ease-settle) var(--rd,0ms),
+    rotate var(--t-dur,var(--t-reveal)) var(--ease-settle) var(--rd,0ms),
+    transform var(--t-out) var(--ease-settle),
+    scale var(--t-out) var(--ease-settle),
+    box-shadow var(--t-out) var(--ease-settle);
+}
+
+/* Map furniture stays put. .map-wash, .sea-note and .map-pin all carry static
+   transforms for placement and several are absolutely positioned, so they
+   fade in place rather than travel. The washes take the longest — colour
+   soaking into paper, not a panel appearing. */
+.atlas-map > .map-wash{--t-from:0 0;--t-dur:1.15s}
+.atlas-map > .sea-note{--t-from:0 0;--t-dur:.95s}
+.atlas-map > .map-pin{--t-from:0 0;--t-dur:.5s}
+.atlas-map > .map-key{--t-from:0 10px}
+
+/* The pin head presses into the paper while its label simply fades in beside
+   it. Both --t-s and --rd inherit from the pin, so the dot and the label stay
+   on the same clock without any extra bookkeeping. */
+.atlas-map > .map-pin i{scale:var(--t-s,.35);transition:scale .5s var(--ease-settle) var(--rd,0ms)}
+
+.chapter-jump > a{--t-from:0 12px}
+.place-chapter > header > *{--t-from:0 16px}
+/* 30ms apart and capped at 620ms in reveal.tsx — the Dordogne has 26 cards and
+   an uncapped stagger would still be arriving long after you'd scrolled past. */
+.place-chapter > .place-grid > .place-card{--t-from:0 12px;--t-dur:.65s}
+
+/* Atlas hero — the homepage load sequence, same easing, same late italic.
+   Reuses the t-rise / t-fade keyframes defined in the block above. */
+.atlas-hero > div > .eyebrow{animation:t-rise .8s var(--ease-settle) .06s both}
+.atlas-hero h1{animation:t-rise .9s var(--ease-settle) .14s both}
+.atlas-hero h1 em{animation:t-fade .9s var(--ease-drift) .38s both}
+.atlas-hero > .atlas-intro{animation:t-rise .85s var(--ease-settle) .3s both}
+
+}
