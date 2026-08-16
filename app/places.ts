@@ -232,3 +232,25 @@ export function chaptersFor(place: Place): Chapter[] {
   const ids = new Set(place.visits.map((visit) => visit.chapter));
   return chapters.filter((chapter) => ids.has(chapter.id));
 }
+
+/** Country names in first-appearance order, for the location-first atlas. */
+export function countries(): string[] {
+  return [...new Set(places.map((place) => place.country))];
+}
+
+export function countrySlug(country: string): string {
+  return country
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+export function placesInCountry(country: string): Place[] {
+  return places.filter((place) => place.country === country);
+}
+
+export function getCountry(slug: string): string | undefined {
+  return countries().find((country) => countrySlug(country) === slug);
+}
