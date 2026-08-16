@@ -48,6 +48,10 @@ const GROUPS: Group[] = [
   { p: ".video-layout", c: ":scope > div:first-child > *", s: 100, d: 0, m: 9e9 },
   { p: ".video-layout", c: ":scope > .video-card", s: 0, d: 260, m: 9e9 },
   { p: ".newsletter", c: ":scope > *", s: 100, d: 0, m: 9e9 },
+  { p: ".home-chapter", c: ":scope > *", s: 80, d: 0, m: 9e9 },
+  { p: ".home-atlas-layout", c: ":scope > *", s: 170, d: 0, m: 9e9 },
+  { p: ".home-find-grid", c: ":scope > .home-find", s: 130, d: 0, m: 390 },
+  { p: ".home-film-layout", c: ":scope > *", s: 180, d: 0, m: 9e9 },
 
   // Archive / interior pages
   { p: ".archive-grid", c: ":scope > .story-card", s: 110, d: 0, m: 620 },
