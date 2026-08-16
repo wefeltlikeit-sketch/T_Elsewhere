@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer, Header } from "../components";
-import { countries, countrySlug, getPlace, pins, places, placesInCountry, visitCount } from "../places";
+import { countries, countrySlug, getPlace, photoForPlace, pins, places, placesInCountry, visitCount } from "../places";
 import { contentCountForPlace } from "../content";
 import { AtlasLink } from "./atlas-link";
 
@@ -72,10 +72,11 @@ export default function PlacesPage() {
             </header>
             <div className="location-grid">
               {countryPlaces.map((place, placeIndex) => {
-                const count = contentCountForPlace(place.slug);
+                const hasPhoto = Boolean(photoForPlace(place.slug));
+                const count = contentCountForPlace(place.slug) + (hasPhoto ? 1 : 0);
                 const visits = visitCount(place);
                 const size = (count > 0 || visits > 1 || placeIndex % 9 === 0) ? "feature" : placeIndex % 5 === 0 ? "wide" : "";
-                return <AtlasLink place={place.slug} data-atlas-card={place.slug} className={`location-card ${size}`} href={`/places/${place.slug}`} key={place.slug}>
+                return <AtlasLink place={place.slug} data-atlas-card={place.slug} className={`location-card ${size}${hasPhoto ? " has-photo" : ""}`} href={`/places/${place.slug}`} key={place.slug}>
                   <p>{count > 0 ? `${count} ${count === 1 ? "piece" : "pieces"} collected` : "Shelf open"}</p>
                   <h4>{place.city}</h4>
                   <small>{visits > 1 ? `${visits} visits · returned to` : "Explore the place"}<span aria-hidden="true">↗</span></small>

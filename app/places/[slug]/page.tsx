@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer, Header, StoryCard } from "../../components";
 import { findsForPlace, storiesForPlace, videosForPlace } from "../../content";
-import { chaptersFor, countrySlug, getPlace, places, placesInCountry, visitCount } from "../../places";
+import { chaptersFor, countrySlug, getPlace, photoForPlace, places, placesInCountry, visitCount } from "../../places";
 import { AtlasLink } from "../atlas-link";
 
 export function generateStaticParams() { return places.map(({ slug }) => ({ slug })); }
@@ -23,7 +23,8 @@ export default async function PlacePage({ params }: { params: Promise<{ slug: st
   const stories = storiesForPlace(slug);
   const finds = findsForPlace(slug);
   const videos = videosForPlace(slug);
-  const total = stories.length + finds.length + videos.length;
+  const photo = photoForPlace(slug);
+  const total = stories.length + finds.length + videos.length + (photo ? 1 : 0);
   const visits = chaptersFor(place);
   const neighbours = placesInCountry(place.country);
   const placeIndex = neighbours.findIndex((item) => item.slug === place.slug);
@@ -42,8 +43,13 @@ export default async function PlacePage({ params }: { params: Promise<{ slug: st
       <div className="place-route-thread" aria-hidden="true"><i /><span>pin found · file opened</span></div>
     </section>
 
+    {photo && <figure className={`place-documentary shell${photo.portrait ? " portrait" : ""}`}>
+      <div className="place-documentary-photo photo" role="img" aria-label={photo.alt} style={{ backgroundImage: `url('${photo.src}')` }} />
+      <figcaption><span>From the camera roll</span>{photo.caption}</figcaption>
+    </figure>}
+
     <section className="place-cabinet shell">
-      <aside><p className="eyebrow">Inside this file</p><h2>A shelf for<br />{place.city}.</h2><dl><div><dt>Stories</dt><dd>{stories.length}</dd></div><div><dt>Market finds</dt><dd>{finds.length}</dd></div><div><dt>Films</dt><dd>{videos.length}</dd></div></dl></aside>
+      <aside><p className="eyebrow">Inside this file</p><h2>A shelf for<br />{place.city}.</h2><dl><div><dt>Photographs</dt><dd>{photo ? 1 : 0}</dd></div><div><dt>Stories</dt><dd>{stories.length}</dd></div><div><dt>Market finds</dt><dd>{finds.length}</dd></div><div><dt>Films</dt><dd>{videos.length}</dd></div></dl></aside>
       <div className="place-contents">
         {total === 0 && <div className="empty-shelf"><span>Filed for later</span><h3>The place is here.<br />The stories are coming.</h3><p>This location already belongs in the atlas. As photographs, tips, finds, and films are published, they’ll collect here automatically.</p><Link className="text-link" href="/travel-stories">Browse all field notes →</Link></div>}
         {stories.length > 0 && <div className="content-group"><p className="eyebrow">Stories &amp; notes</p><div className="place-story-grid">{stories.map((story) => <StoryCard story={story} key={story.slug} />)}</div></div>}

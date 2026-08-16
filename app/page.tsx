@@ -28,8 +28,8 @@ export default function Home() {
           <a className="button" href="#home-journey">Start wandering <span>↓</span></a>
           <p className="postcard-note">currently daydreaming about<br /><strong>one more market morning</strong></p>
         </div>
-        <div className="hero-photo photo" role="img" aria-label="Sunlit street in an old European town">
-          <span className="photo-label">Les Baux-de-Provence, France</span>
+        <div className="hero-photo photo" role="img" aria-label="Rocamadour rising above the Alzou valley">
+          <span className="photo-label">Rocamadour, France</span>
           <div className="stamp">C<br /><small>&amp; cobbles</small></div>
           <span className="hero-route-mark" aria-hidden="true"><i />The road starts here</span>
         </div>

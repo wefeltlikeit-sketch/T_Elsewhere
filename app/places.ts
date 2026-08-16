@@ -42,6 +42,13 @@ export type Place = {
   visits: Visit[];
 };
 
+export type PlacePhoto = {
+  src: string;
+  alt: string;
+  caption: string;
+  portrait?: boolean;
+};
+
 /** A hand-placed marker on the fold-out map. Percentages, chosen by eye. */
 export type Pin = {
   /** Place slug this pin refers to. */
@@ -253,4 +260,47 @@ export function placesInCountry(country: string): Place[] {
 
 export function getCountry(slug: string): string | undefined {
   return countries().find((country) => countrySlug(country) === slug);
+}
+
+/**
+ * Photographs confidently matched to a location from the camera metadata and
+ * a visual review. Published copies are resized and contain no GPS metadata;
+ * the originals remain untouched in the photo library.
+ */
+const placePhotos: Record<string, PlacePhoto> = {
+  amsterdam: { src: "/photos/amsterdam-canal.jpg", alt: "Canal houses reflected in the water in Amsterdam", caption: "Amsterdam, Netherlands", portrait: true },
+  ballachulish: { src: "/photos/ballachulish-glen.jpg", alt: "A green Highland glen beneath cloud-covered mountains", caption: "Ballachulish, Scotland", portrait: true },
+  basel: { src: "/photos/basel-rhine.jpg", alt: "The Rhine and the old city riverfront in Basel", caption: "Basel, Switzerland" },
+  bergerac: { src: "/photos/bergerac-cheese.jpg", alt: "Rounds of cheese arranged at a market stall in Bergerac", caption: "Bergerac, France" },
+  bruges: { src: "/photos/bruges-canal.jpg", alt: "Historic brick buildings beside a canal in Bruges", caption: "Bruges, Belgium" },
+  brussels: { src: "/photos/brussels-atomium.jpg", alt: "The Atomium rising into a blue sky in Brussels", caption: "Brussels, Belgium", portrait: true },
+  colmar: { src: "/photos/colmar-christmas.jpg", alt: "A decorated street in Colmar during the Christmas season", caption: "Colmar, France", portrait: true },
+  edinburgh: { src: "/photos/edinburgh-victoria-street.jpg", alt: "Colourful shopfronts curving along Victoria Street in Edinburgh", caption: "Edinburgh, Scotland" },
+  gordes: { src: "/photos/gordes-senanque.jpg", alt: "The stone Abbaye de Senanque in the valley near Gordes", caption: "Abbaye de Sénanque, near Gordes, France" },
+  interlaken: { src: "/photos/interlaken-valley.jpg", alt: "The broad green valley and mountains surrounding Interlaken", caption: "Interlaken, Switzerland" },
+  katwoude: { src: "/photos/katwoude-windmill.jpg", alt: "A traditional windmill beside the water in Katwoude", caption: "Katwoude, Netherlands" },
+  kyle: { src: "/photos/kyle-eilean-donan.jpg", alt: "Eilean Donan Castle reflected in the water near Kyle", caption: "Near Kyle, Scotland" },
+  "l-isle-sur-la-sorgue": { src: "/photos/lisle-canal.jpg", alt: "A shaded canal running through L'Isle-sur-la-Sorgue", caption: "L’Isle-sur-la-Sorgue, France", portrait: true },
+  lourmarin: { src: "/photos/lourmarin-market.jpg", alt: "A colourful produce stall at the market in Lourmarin", caption: "Lourmarin, France" },
+  lucerne: { src: "/photos/lucerne-bridge.jpg", alt: "The covered wooden Chapel Bridge crossing the river in Lucerne", caption: "Lucerne, Switzerland", portrait: true },
+  lugano: { src: "/photos/lugano-lake.jpg", alt: "Lake Lugano and the mountains seen from the waterfront", caption: "Lugano, Switzerland" },
+  milan: { src: "/photos/milan-galleria.jpg", alt: "The ornate glass arcade of the Galleria Vittorio Emanuele II in Milan", caption: "Milan, Italy", portrait: true },
+  obernai: { src: "/photos/obernai-house.jpg", alt: "A half-timbered house decorated for Christmas in Obernai", caption: "Obernai, France" },
+  orkney: { src: "/photos/orkney-stones.jpg", alt: "Standing stones in an open Orkney landscape", caption: "Orkney, Scotland" },
+  paris: { src: "/photos/paris-montmartre.jpg", alt: "A quiet Montmartre street climbing between Parisian buildings", caption: "Montmartre, Paris, France" },
+  portree: { src: "/photos/portree-harbour.jpg", alt: "Colourful houses lining Portree harbour on the Isle of Skye", caption: "Portree, Scotland" },
+  rocamadour: { src: "/photos/rocamadour-overlook.jpg", alt: "Rocamadour rising along a cliff above the Alzou valley", caption: "Rocamadour, France", portrait: true },
+  roussillon: { src: "/photos/roussillon-pigments.jpg", alt: "Bowls of ochre pigments in warm Provençal colours in Roussillon", caption: "Roussillon, France" },
+  "saint-cyprien": { src: "/photos/saint-cyprien-market.jpg", alt: "Market baskets and goods arranged in Saint-Cyprien", caption: "Saint-Cyprien, France" },
+  "sarlat-la-caneda": { src: "/photos/sarlat-geese.jpg", alt: "The bronze geese sculpture on a golden-stone street in Sarlat", caption: "Sarlat-la-Canéda, France", portrait: true },
+  souillac: { src: "/photos/souillac-abbey.jpg", alt: "The domed abbey church in the centre of Souillac", caption: "Souillac, France" },
+  strasbourg: { src: "/photos/strasbourg-christmas.jpg", alt: "A Strasbourg street glowing with Christmas lights", caption: "Strasbourg, France", portrait: true },
+  thurso: { src: "/photos/thurso-cliffs.jpg", alt: "Sea cliffs dropping into blue water near Thurso", caption: "Near Thurso, Scotland" },
+  ullapool: { src: "/photos/ullapool-harbour.jpg", alt: "Boats resting in the harbour at Ullapool", caption: "Ullapool, Scotland" },
+  vienna: { src: "/photos/vienna-street.jpg", alt: "An elegant street and historic buildings in central Vienna", caption: "Vienna, Austria" },
+  volendam: { src: "/photos/volendam-street.jpg", alt: "Traditional Dutch houses along a narrow street in Volendam", caption: "Volendam, Netherlands" },
+};
+
+export function photoForPlace(slug: string): PlacePhoto | undefined {
+  return placePhotos[slug];
 }
