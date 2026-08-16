@@ -160,6 +160,10 @@
 @media(max-width:760px){.place-route-thread{position:static;width:100%;margin-top:42px}.place-title-mark>span{right:-6%}}
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation-duration:.001ms!important}.atlas-routes path{stroke-dashoffset:0}.place-route-thread:before{scale:1 1}}
 
+/* Cheese & Cobblestones identity lockup */
+.brand{font-size:21px;letter-spacing:.055em;white-space:nowrap}.brand span,.footer-brand span{font-style:normal;color:var(--terra)}.brand i,.footer-brand i{font-style:italic;color:var(--plum)}.brand small{font-size:7px;letter-spacing:.12em;white-space:normal}.footer-brand{font-size:30px;letter-spacing:.03em}
+@media(max-width:460px){.brand{font-size:16px;letter-spacing:.035em}.brand small{font-size:6px;letter-spacing:.07em}.mobile-menu summary{font-size:9px}}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    MOTION — Places (the atlas)
    Same machinery as the block above: hidden state gated behind

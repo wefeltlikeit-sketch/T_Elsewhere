@@ -1,5 +1,5 @@
 /**
- * Scroll reveals for "T, Elsewhere" — as a blocking inline script, not a React
+ * Scroll reveals for "Cheese & Cobblestones" — as a blocking inline script, not a React
  * component.
  *
  * WHY IT LOOKS LIKE THIS

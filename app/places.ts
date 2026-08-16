@@ -1,5 +1,5 @@
 /**
- * Canonical place data for "T, Elsewhere".
+ * Canonical place data for "Cheese & Cobblestones".
  *
  * Single source of truth for everywhere T has actually been. Stories, finds and
  * cheeses reference places by `slug`; nothing else should hardcode a city name.
