@@ -31,7 +31,7 @@ export default async function PlacePage({ params }: { params: Promise<{ slug: st
   const next = neighbours[(placeIndex + 1) % neighbours.length];
   const atlasReturn = `/places?return=${place.slug}#${countrySlug(place.country)}`;
 
-  return <main><Header />
+  return <main><Header active="places" />
     <section className={`place-detail-hero shell place-${place.slug}`}>
       {/* A document navigation deliberately activates the native reverse transition. */}
       <a className="place-back" href={atlasReturn}>← The atlas</a>

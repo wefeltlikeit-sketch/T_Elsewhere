@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <main className="videos-page">
-      <Header />
+      <Header active="videos" />
       <div className="cinema-curtain">
         <PageHero
           kicker="The road, in motion"

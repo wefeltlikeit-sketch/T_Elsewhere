@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <main className="stories-page">
-      <Header />
+      <Header active="stories" />
       <PageHero
         kicker="Notes from trains, tables & side streets"
         title="Travel Stories"

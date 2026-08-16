@@ -241,6 +241,11 @@
 
 @media(max-width:620px){.site-trail{left:2px;top:92px;bottom:22px;opacity:.45}.site-trail>span{display:none}.wander-trigger{right:12px;bottom:12px;min-width:128px;padding:9px 11px}.wander-trigger b{font-size:19px}.wander-trigger i{font-size:23px}.wander-wash{clip-path:circle(0 at calc(100% - 55px) calc(100% - 45px))}.is-wandering .wander-wash{clip-path:circle(150vmax at calc(100% - 55px) calc(100% - 45px))}}
 @media(prefers-reduced-motion:reduce){.site-trail,.site-trail>i,.wander-trigger,.wander-trigger i,.wander-wash,.wander-wash span{transition:none}.wander-wash{display:none}}
+
+/* Consistency and keyboard polish. */
+.site-header nav a[aria-current="page"]{color:var(--plum)}.site-header nav a[aria-current="page"]:after{right:0;background:currentColor}.videos-page .site-header nav a[aria-current="page"]{color:var(--sand)}.mobile-menu a[aria-current="page"]{color:var(--terra);font-weight:600}.mobile-menu a[aria-current="page"]:before{content:"→ ";color:currentColor}:where(a,button,input,summary):focus-visible{outline:2px solid var(--terra);outline-offset:4px}.about-page .about-layout>div:last-child>*{animation:t-rise .8s var(--ease-settle) both}.about-page .about-layout>div:last-child>*:nth-child(2){animation-delay:.08s}.about-page .about-layout>div:last-child>*:nth-child(3){animation-delay:.14s}.about-page .about-layout>div:last-child>*:nth-child(n+4){animation-delay:.2s}
+@media(max-width:620px){.wander-trigger{min-width:108px}.wander-trigger span{letter-spacing:.1em}.wander-trigger b{font-size:17px}.wander-trigger i{font-size:21px}}
+@media(prefers-reduced-motion:reduce){.about-page .about-layout>div:last-child>*{animation:none}}
 .reveal-on .cheese-card.is-in:hover,.reveal-on .cheese-card.is-in:focus-within{translate:0 -7px}.cheese-card:hover .cheese-seal,.cheese-card:focus-within .cheese-seal{animation:none;rotate:-5deg}
 
 /* ═══════════════════════════════════════════════════════════════════════════

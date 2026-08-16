@@ -14,7 +14,7 @@ export default function PlacesPage() {
   const countryList = countries();
   const returnVisits = places.filter((place) => visitCount(place) > 1).length;
   return <main>
-    <Header />
+    <Header active="places" />
     <section className="atlas-hero shell">
       <div>
         <p className="eyebrow">The location index · 2024 onward</p>
