@@ -52,6 +52,7 @@ const GROUPS: Group[] = [
   // Archive / interior pages
   { p: ".archive-grid", c: ":scope > .story-card", s: 110, d: 0, m: 620 },
   { p: ".finds-archive", c: ":scope > .find-archive-card", s: 100, d: 0, m: 620 },
+  { p: ".finds-cabinet", c: ":scope > .find-object", s: 130, d: 0, m: 620 },
   { p: ".cheese-grid", c: ":scope > .cheese-card", s: 120, d: 0, m: 620 },
   { p: ".videos-grid", c: ":scope > .video-card", s: 110, d: 0, m: 620 },
 
