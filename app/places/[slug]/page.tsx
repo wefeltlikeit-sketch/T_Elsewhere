@@ -26,12 +26,17 @@ export default async function PlacePage({ params }: { params: Promise<{ slug: st
   const visits = chaptersFor(place);
 
   return <main><Header />
-    <section className="place-detail-hero shell">
-      <Link className="place-back" href="/places">← The atlas</Link>
+    <section className={`place-detail-hero shell place-${place.slug}`}>
+      {place.slug === "paris" ? <>
+        {/* A document navigation deliberately activates the native shared-element transition. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a className="place-back" href="/places#france">← The atlas</a>
+      </> : <Link className="place-back" href="/places">← The atlas</Link>}
       <p className="eyebrow">{place.country} · Location file</p>
-      <h1>{place.city}</h1>
+      <div className="place-title-mark" style={place.slug === "paris" ? { viewTransitionName: "place-paris" } : undefined}><h1>{place.city}</h1><span aria-hidden="true" /></div>
       <p className="place-detail-dek">Everything gathered here, kept together: the long reads, quick notes, photographs, things brought home, and views from above.</p>
       <div className="place-detail-meta"><span>{visitCount(place)} {visitCount(place) === 1 ? "visit" : "visits"}</span><span>{total} {total === 1 ? "piece" : "pieces"} collected</span></div>
+      <div className="place-route-thread" aria-hidden="true"><i /><span>pin found · file opened</span></div>
     </section>
 
     <section className="place-cabinet shell">

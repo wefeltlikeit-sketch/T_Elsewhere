@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer, Header } from "../components";
-import { countries, countrySlug, pins, places, placesInCountry, visitCount } from "../places";
+import { countries, countrySlug, getPlace, pins, places, placesInCountry, visitCount } from "../places";
 import { contentCountForPlace } from "../content";
 
 export const metadata: Metadata = {
@@ -36,10 +36,20 @@ export default function PlacesPage() {
       </div>
       <div className="atlas-map">
         <div className="map-wash wash-one" /><div className="map-wash wash-two" /><div className="map-wash wash-three" />
+        <svg className="atlas-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path pathLength="1" d="M29 10 C26 12 24 15 23 18 S30 25 34 29 S42 38 46 42 S44 50 43 55" />
+          <path pathLength="1" d="M43 55 C47 53 49 53 52 53 S52 57 53 59 S54 66 55 69" />
+          <path pathLength="1" d="M43 55 C42 62 42 67 42 69 S44 71 45 72 M45 72 C48 75 49 78 48 79 S51 81 52 82" />
+          <path pathLength="1" d="M52 53 C56 51 58 52 60 53 S62 57 64 58 S68 54 71 55 S73 58 75 59" />
+        </svg>
         <span className="sea-note sea-one">North Sea</span><span className="sea-note sea-two">Mediterranean</span>
-        {pins.map((pin, index) => <Link key={pin.place} className={`map-pin pin-${index % 3}`} href={`/places/${pin.place}`} style={{left:`${pin.left}%`,top:`${pin.top}%`}} aria-label={`Open the ${pin.label} location page`}>
-          <i /><span>{pin.label}</span>
-        </Link>)}
+        {pins.map((pin, index) => {
+          const place = getPlace(pin.place);
+          const returned = place ? visitCount(place) > 1 : false;
+          return <a key={pin.place} className={`map-pin pin-${index % 3}${returned ? " returned" : ""}`} href={`/places/${pin.place}`} style={{left:`${pin.left}%`,top:`${pin.top}%`}} aria-label={`Open the ${pin.label} location page`}>
+            {returned && <b className="return-ring" aria-hidden="true" />}<i /><span>{pin.label}</span>
+          </a>;
+        })}
         <div className="map-key"><span><i /> open a location</span><small>Not to scale. Very much to feeling.</small></div>
       </div>
     </section>
@@ -64,11 +74,14 @@ export default function PlacesPage() {
                 const count = contentCountForPlace(place.slug);
                 const visits = visitCount(place);
                 const size = (count > 0 || visits > 1 || placeIndex % 9 === 0) ? "feature" : placeIndex % 5 === 0 ? "wide" : "";
-                return <Link className={`location-card ${size}`} href={`/places/${place.slug}`} key={place.slug}>
+                const isParis = place.slug === "paris";
+                const sharedProps = isParis ? { style: { viewTransitionName: "place-paris" }, "data-atlas-shared": "paris" } : {};
+                const CardTag = isParis ? "a" : Link;
+                return <CardTag className={`location-card ${size}`} href={`/places/${place.slug}`} key={place.slug} {...sharedProps}>
                   <p>{count > 0 ? `${count} ${count === 1 ? "piece" : "pieces"} collected` : "Shelf open"}</p>
                   <h4>{place.city}</h4>
                   <small>{visits > 1 ? `${visits} visits · returned to` : "Explore the place"}<span aria-hidden="true">↗</span></small>
-                </Link>;
+                </CardTag>;
               })}
             </div>
           </article>;
