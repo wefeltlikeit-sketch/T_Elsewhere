@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Footer, Header } from "../components";
 import { countries, countrySlug, getPlace, pins, places, placesInCountry, visitCount } from "../places";
 import { contentCountForPlace } from "../content";
+import { AtlasLink } from "./atlas-link";
 
 export const metadata: Metadata = {
   title: "Places — A Personal Atlas",
@@ -46,9 +47,9 @@ export default function PlacesPage() {
         {pins.map((pin, index) => {
           const place = getPlace(pin.place);
           const returned = place ? visitCount(place) > 1 : false;
-          return <a key={pin.place} className={`map-pin pin-${index % 3}${returned ? " returned" : ""}`} href={`/places/${pin.place}`} style={{left:`${pin.left}%`,top:`${pin.top}%`}} aria-label={`Open the ${pin.label} location page`}>
+          return <AtlasLink key={pin.place} place={pin.place} className={`map-pin pin-${index % 3}${returned ? " returned" : ""}`} href={`/places/${pin.place}`} style={{left:`${pin.left}%`,top:`${pin.top}%`}} aria-label={`Open the ${pin.label} location page`}>
             {returned && <b className="return-ring" aria-hidden="true" />}<i /><span>{pin.label}</span>
-          </a>;
+          </AtlasLink>;
         })}
         <div className="map-key"><span><i /> open a location</span><small>Not to scale. Very much to feeling.</small></div>
       </div>
@@ -74,14 +75,11 @@ export default function PlacesPage() {
                 const count = contentCountForPlace(place.slug);
                 const visits = visitCount(place);
                 const size = (count > 0 || visits > 1 || placeIndex % 9 === 0) ? "feature" : placeIndex % 5 === 0 ? "wide" : "";
-                const isParis = place.slug === "paris";
-                const sharedProps = isParis ? { style: { viewTransitionName: "place-paris" }, "data-atlas-shared": "paris" } : {};
-                const CardTag = isParis ? "a" : Link;
-                return <CardTag className={`location-card ${size}`} href={`/places/${place.slug}`} key={place.slug} {...sharedProps}>
+                return <AtlasLink place={place.slug} data-atlas-card={place.slug} className={`location-card ${size}`} href={`/places/${place.slug}`} key={place.slug}>
                   <p>{count > 0 ? `${count} ${count === 1 ? "piece" : "pieces"} collected` : "Shelf open"}</p>
                   <h4>{place.city}</h4>
                   <small>{visits > 1 ? `${visits} visits · returned to` : "Explore the place"}<span aria-hidden="true">↗</span></small>
-                </CardTag>;
+                </AtlasLink>;
               })}
             </div>
           </article>;

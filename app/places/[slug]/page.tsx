@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Footer, Header, StoryCard } from "../../components";
 import { findsForPlace, storiesForPlace, videosForPlace } from "../../content";
-import { chaptersFor, getPlace, places, visitCount } from "../../places";
+import { chaptersFor, countrySlug, getPlace, places, placesInCountry, visitCount } from "../../places";
+import { AtlasLink } from "../atlas-link";
 
 export function generateStaticParams() { return places.map(({ slug }) => ({ slug })); }
 export const dynamicParams = false;
@@ -24,16 +25,18 @@ export default async function PlacePage({ params }: { params: Promise<{ slug: st
   const videos = videosForPlace(slug);
   const total = stories.length + finds.length + videos.length;
   const visits = chaptersFor(place);
+  const neighbours = placesInCountry(place.country);
+  const placeIndex = neighbours.findIndex((item) => item.slug === place.slug);
+  const previous = neighbours[(placeIndex - 1 + neighbours.length) % neighbours.length];
+  const next = neighbours[(placeIndex + 1) % neighbours.length];
+  const atlasReturn = `/places?return=${place.slug}#${countrySlug(place.country)}`;
 
   return <main><Header />
     <section className={`place-detail-hero shell place-${place.slug}`}>
-      {place.slug === "paris" ? <>
-        {/* A document navigation deliberately activates the native shared-element transition. */}
-        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-        <a className="place-back" href="/places#france">← The atlas</a>
-      </> : <Link className="place-back" href="/places">← The atlas</Link>}
+      {/* A document navigation deliberately activates the native reverse transition. */}
+      <a className="place-back" href={atlasReturn}>← The atlas</a>
       <p className="eyebrow">{place.country} · Location file</p>
-      <div className="place-title-mark" style={place.slug === "paris" ? { viewTransitionName: "place-paris" } : undefined}><h1>{place.city}</h1><span aria-hidden="true" /></div>
+      <div className="place-title-mark" data-atlas-destination={place.slug} style={{ viewTransitionName: `place-${place.slug}` }}><h1>{place.city}</h1><span aria-hidden="true" /></div>
       <p className="place-detail-dek">Everything gathered here, kept together: the long reads, quick notes, photographs, things brought home, and views from above.</p>
       <div className="place-detail-meta"><span>{visitCount(place)} {visitCount(place) === 1 ? "visit" : "visits"}</span><span>{total} {total === 1 ? "piece" : "pieces"} collected</span></div>
       <div className="place-route-thread" aria-hidden="true"><i /><span>pin found · file opened</span></div>
@@ -50,6 +53,11 @@ export default async function PlacePage({ params }: { params: Promise<{ slug: st
     </section>
 
     <section className="visit-strip"><div className="shell"><p className="eyebrow">Visits in the notebook</p><div>{visits.map((visit) => <span key={visit.id}><small>{visit.date}</small>{visit.title}</span>)}</div></div></section>
+    <nav className="place-neighbours shell" aria-label={`More places in ${place.country}`}>
+      {neighbours.length > 1 ? <AtlasLink place={previous.slug} href={`/places/${previous.slug}`}><small>← Previous in {place.country}</small><span>{previous.city}</span></AtlasLink> : <span />}
+      <Link href={`/places/country/${countrySlug(place.country)}`} className="country-return">All {place.country} places</Link>
+      {neighbours.length > 1 ? <AtlasLink place={next.slug} href={`/places/${next.slug}`}><small>Next in {place.country} →</small><span>{next.city}</span></AtlasLink> : <span />}
+    </nav>
     <Footer />
   </main>;
 }
