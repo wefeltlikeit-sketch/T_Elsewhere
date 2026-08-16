@@ -55,6 +55,8 @@ const GROUPS: Group[] = [
   { p: ".finds-cabinet", c: ":scope > .find-object", s: 130, d: 0, m: 620 },
   { p: ".cheese-grid", c: ":scope > .cheese-card", s: 120, d: 0, m: 620 },
   { p: ".videos-grid", c: ":scope > .video-card", s: 110, d: 0, m: 620 },
+  { p: ".journal-index", c: ":scope > .journal-entry", s: 90, d: 0, m: 360 },
+  { p: ".screening-list", c: ":scope > .screening", s: 180, d: 0, m: 360 },
 
   // Places: the atlas. The map assembles the way one would be drawn —
   // washes soak in, seas get named, pins go in one at a time, key signs last.

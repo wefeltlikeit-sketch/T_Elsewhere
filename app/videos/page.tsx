@@ -1,2 +1,46 @@
-import { Footer, Header, PageHero } from "../components"; import { videos } from "../content";
-export default function Page(){return <main><Header/><PageHero kicker="The road, in motion" title="Videos" intro="Market mornings, train windows, cheese counters—and everything better seen with the sound on."/><section className="shell videos-grid">{videos.concat(videos).map((v,i)=><article className="video-card" key={i}><div className="video-thumb photo" style={{backgroundImage:`url('${v.image}')`}}><a className="play" href={v.youtube} aria-label={`Watch ${v.title} on YouTube`}>▶</a><span className="photo-label">VIDEO · {i%2?"08:22":"12:48"}</span></div><h2>{v.title}</h2><p>{v.description}</p></article>)}</section><Footer/></main>}
+import type { Metadata } from "next";
+import { Footer, Header, PageHero } from "../components";
+import { videos } from "../content";
+
+export const metadata: Metadata = {
+  title: "Videos",
+  description: "Market mornings, train windows, cheese counters, and moving pictures from the road.",
+};
+
+export default function Page() {
+  return (
+    <main className="videos-page">
+      <Header />
+      <div className="cinema-curtain">
+        <PageHero
+          kicker="The road, in motion"
+          title="Moving pictures"
+          intro="Market mornings, train windows, cheese counters—and everything better seen with the sound on."
+        />
+        <div className="film-rule" aria-hidden="true"><span>Field films</span><i /><span>Cheese &amp; Cobblestones</span></div>
+        <section className="shell screening-list" aria-label="Travel videos">
+          {videos.map((video, index) => (
+            <article className={`screening ${index === 0 ? "feature" : ""}`} key={video.title}>
+              <a href={video.youtube} aria-label={`Watch ${video.title} on YouTube`}>
+                <div className="film-frame">
+                  <div className="video-still photo" style={{ backgroundImage: `url('${video.image}')` }} />
+                  <span className="film-count">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="cinema-play" aria-hidden="true">▶</span>
+                  <span className="film-caption">Play field film</span>
+                </div>
+                <div className="screening-copy">
+                  <p className="eyebrow">Film {String(index + 1).padStart(2, "0")} · From the road</p>
+                  <h2>{video.title}</h2>
+                  <p>{video.description}</p>
+                  <span>Watch now ↗</span>
+                </div>
+              </a>
+            </article>
+          ))}
+        </section>
+        <p className="end-title">More reels are being developed.</p>
+      </div>
+      <Footer />
+    </main>
+  );
+}
