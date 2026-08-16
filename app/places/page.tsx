@@ -17,7 +17,7 @@ export default function PlacesPage() {
     <section className="atlas-hero shell">
       <div>
         <p className="eyebrow">The location index · 2024 onward</p>
-        <h1>Every place,<br /><em>once.</em></h1>
+        <h1>Where the road<br /><em>has taken me.</em></h1>
       </div>
       <div className="atlas-intro-wrap">
         <p className="atlas-intro">A growing cabinet of cities, villages, islands, and excellent detours. Choose a place to gather everything found there — stories, photographs, market treasures, tips, and films.</p>
