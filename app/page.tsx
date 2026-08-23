@@ -42,7 +42,16 @@ export default function Home() {
             <source src="/videos/rocamadour.mp4" type="video/mp4" />
           </video>
           <span className="photo-label">Rocamadour, France</span>
-          <div className="stamp">C<br /><small>&amp; cobbles</small></div>
+          <div className="stamp logo-seal" role="img" aria-label="Cheese and Cobblestones, a European journal">
+            <svg viewBox="0 0 200 200" aria-hidden="true">
+              <circle className="logo-seal-outer" cx="100" cy="100" r="88" />
+              <circle className="logo-seal-inner" cx="100" cy="100" r="76" />
+              <text className="logo-seal-cheese" x="100" y="83" textAnchor="middle">Cheese &amp;</text>
+              <text className="logo-seal-cobbles" x="100" y="113" textAnchor="middle">Cobblestones</text>
+              <path className="logo-seal-rule" d="M65 126 H135" />
+              <text className="logo-seal-journal" x="101" y="144" textAnchor="middle">A EUROPEAN JOURNAL</text>
+            </svg>
+          </div>
           <span className="hero-route-mark" aria-hidden="true"><i />The road starts here</span>
         </div>
       </section>
