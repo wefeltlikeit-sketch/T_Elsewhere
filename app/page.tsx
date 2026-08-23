@@ -29,6 +29,18 @@ export default function Home() {
           <p className="postcard-note">currently daydreaming about<br /><strong>one more market morning</strong></p>
         </div>
         <div className="hero-photo photo" role="img" aria-label="Rocamadour rising above the Alzou valley">
+          <video
+            className="hero-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/photos/rocamadour-overlook.jpg"
+            aria-hidden="true"
+          >
+            <source src="/videos/rocamadour.mp4" type="video/mp4" />
+          </video>
           <span className="photo-label">Rocamadour, France</span>
           <div className="stamp">C<br /><small>&amp; cobbles</small></div>
           <span className="hero-route-mark" aria-hidden="true"><i />The road starts here</span>
