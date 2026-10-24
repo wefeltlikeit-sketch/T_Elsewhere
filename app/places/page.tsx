@@ -39,6 +39,7 @@ export default function PlacesPage() {
         <div className="map-wash wash-one" /><div className="map-wash wash-two" /><div className="map-wash wash-three" />
         <svg className="atlas-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <path pathLength="1" d="M29 10 C26 12 24 15 23 18 S30 25 34 29 S42 38 46 42 S44 50 43 55" />
+          <path pathLength="1" d="M28 39 C25 37 21 37 18 39 S17 46 19 50 C23 51 27 47 28 39" />
           <path pathLength="1" d="M43 55 C47 53 49 53 52 53 S52 57 53 59 S54 66 55 69" />
           <path pathLength="1" d="M43 55 C42 62 42 67 42 69 S44 71 45 72 M45 72 C48 75 49 78 48 79 S51 81 52 82" />
           <path pathLength="1" d="M52 53 C56 51 58 52 60 53 S62 57 64 58 S68 54 71 55 S73 58 75 59" />
