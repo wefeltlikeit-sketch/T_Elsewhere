@@ -5,11 +5,16 @@ import { countries, places } from "./places";
 import { HomeJourney } from "./home-journey";
 
 const atlasPins = [
-  ["Paris", "24%", "32%"],
-  ["Amsterdam", "43%", "18%"],
-  ["Lisbon", "15%", "67%"],
-  ["Bologna", "58%", "61%"],
-  ["Athens", "79%", "76%"],
+  ["Scotland", "29%", "18%"],
+  ["Ireland", "18%", "34%"],
+  ["Netherlands", "46%", "34%"],
+  ["Belgium", "42%", "43%"],
+  ["France", "35%", "57%"],
+  ["Germany", "56%", "42%"],
+  ["Switzerland", "50%", "57%"],
+  ["Austria", "64%", "55%"],
+  ["Slovakia", "74%", "49%"],
+  ["Italy", "55%", "72%"],
 ];
 
 function Chapter({ number, label }: { number: string; label: string }) {
@@ -81,9 +86,12 @@ export default function Home() {
               </div>
               <Link className="home-atlas-preview" href="/places" aria-label="Explore the living atlas">
                 <div className="home-map-wash wash-a" /><div className="home-map-wash wash-b" /><div className="home-map-wash wash-c" />
-                <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M15 67 C25 54 31 40 43 18 S51 44 58 61 S72 72 79 76" /></svg>
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M29 18 C25 24 21 28 18 34 C27 34 37 34 46 34 C45 38 44 41 42 43 C40 49 38 54 35 57 C40 56 46 56 50 57 C52 62 54 68 55 72" />
+                  <path d="M46 34 C50 36 53 39 56 42 C59 47 61 52 64 55 C67 52 71 50 74 49" />
+                </svg>
                 {atlasPins.map(([label, left, top], index) => <span className={`home-map-pin pin-${index}`} style={{ left, top }} key={label}><i />{label}</span>)}
-                <small>Not to scale. Very much to feeling.</small>
+                <small>{countries().length} countries in the atlas · Not to scale. Very much to feeling.</small>
               </Link>
             </div>
           </div>
