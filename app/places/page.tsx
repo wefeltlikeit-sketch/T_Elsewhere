@@ -4,6 +4,7 @@ import { Footer, Header } from "../components";
 import { countries, countrySlug, getPlace, photoForPlace, pins, places, placesInCountry, visitCount } from "../places";
 import { contentCountForPlace } from "../content";
 import { AtlasLink } from "./atlas-link";
+import { CountryAccordion, type CountryAccordionGroup } from "./country-accordion";
 
 export const metadata: Metadata = {
   title: "Places — A Personal Atlas",
@@ -13,6 +14,17 @@ export const metadata: Metadata = {
 export default function PlacesPage() {
   const countryList = countries();
   const returnVisits = places.filter((place) => visitCount(place) > 1).length;
+  const countryGroups: CountryAccordionGroup[] = countryList.map((country) => ({
+    country,
+    slug: countrySlug(country),
+    places: placesInCountry(country).map((place, placeIndex) => {
+      const hasPhoto = Boolean(photoForPlace(place.slug));
+      const count = contentCountForPlace(place.slug) + (hasPhoto ? 1 : 0);
+      const visits = visitCount(place);
+      const size = (count > 0 || visits > 1 || placeIndex % 9 === 0) ? "feature" : placeIndex % 5 === 0 ? "wide" : "";
+      return { slug: place.slug, city: place.city, count, visits, hasPhoto, size };
+    }),
+  }));
   return <main>
     <Header active="places" />
     <section className="atlas-hero shell">
@@ -56,38 +68,7 @@ export default function PlacesPage() {
       </div>
     </section>
 
-    <nav className="country-jump shell" aria-label="Jump to a country">
-      <p className="eyebrow">Browse by country</p>
-      <div>{countryList.map(country => <a href={`#${countrySlug(country)}`} key={country}>{country}<span>{placesInCountry(country).length}</span></a>)}</div>
-    </nav>
-
-    <section className="location-index shell">
-      <aside className="index-intro"><p className="eyebrow">The card catalogue</p><h2>Places, not<br />itineraries.</h2><p>A city appears once, however many times the road leads back. Each card opens a shelf for everything gathered there.</p><div className="index-legend"><span>Stories</span><span>Photographs</span><span>Market finds</span><span>Tips</span><span>Films</span></div></aside>
-      <div className="country-shelves">
-        {countryList.map((country, countryIndex) => {
-          const countryPlaces = placesInCountry(country);
-          return <article className={`country-shelf country-tone-${countryIndex % 3}`} id={countrySlug(country)} key={country}>
-            <header>
-              <div><p className="eyebrow">Country № {String(countryIndex + 1).padStart(2, "0")}</p><h3>{country}</h3></div>
-              <Link href={`/places/country/${countrySlug(country)}`}>View all {countryPlaces.length} {countryPlaces.length === 1 ? "place" : "places"} <span>↗</span></Link>
-            </header>
-            <div className="location-grid">
-              {countryPlaces.map((place, placeIndex) => {
-                const hasPhoto = Boolean(photoForPlace(place.slug));
-                const count = contentCountForPlace(place.slug) + (hasPhoto ? 1 : 0);
-                const visits = visitCount(place);
-                const size = (count > 0 || visits > 1 || placeIndex % 9 === 0) ? "feature" : placeIndex % 5 === 0 ? "wide" : "";
-                return <AtlasLink place={place.slug} data-atlas-card={place.slug} className={`location-card ${size}${hasPhoto ? " has-photo" : ""}`} href={`/places/${place.slug}`} key={place.slug}>
-                  <p>{count > 0 ? `${count} ${count === 1 ? "piece" : "pieces"} collected` : "Shelf open"}</p>
-                  <h4>{place.city}</h4>
-                  <small>{visits > 1 ? `${visits} visits · returned to` : "Explore the place"}<span aria-hidden="true">↗</span></small>
-                </AtlasLink>;
-              })}
-            </div>
-          </article>;
-        })}
-      </div>
-    </section>
+    <CountryAccordion groups={countryGroups} />
 
     <section className="atlas-cta">
       <div className="shell"><p className="eyebrow">The map is never finished</p><h2>There’s always room<br />for one more pin.</h2><Link className="button" href="/travel-stories">Read the field notes <span>↗</span></Link></div>
