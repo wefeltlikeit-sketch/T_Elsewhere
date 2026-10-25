@@ -33,12 +33,13 @@ export function CountryAccordion({ groups }: CountryAccordionProps) {
   }, [groups]);
 
   const chooseCountry = (slug: string, shouldScroll = false) => {
+    const waitForClosingDrawer = Boolean(shouldScroll && openCountry && openCountry !== slug);
     setOpenCountry((current) => current === slug && !shouldScroll ? null : slug);
     if (shouldScroll) {
       history.replaceState(null, "", `#${slug}`);
-      requestAnimationFrame(() => requestAnimationFrame(() => {
+      window.setTimeout(() => {
         document.getElementById(slug)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }));
+      }, waitForClosingDrawer && !window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 780 : 0);
     }
   };
 
